@@ -26,5 +26,6 @@ urlpatterns = [
     path('login/', views.loginuser, name='loginuser'),
     # App stuff
     path('add/', views.addItem, name='addItem'),
+    path('items/', views.items, name='items'),
 
 ]
