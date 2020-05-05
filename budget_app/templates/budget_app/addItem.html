@@ -1,0 +1,11 @@
+{% extends 'budget_app/base.html' %}
+{% block content %}
+<h1>Add item</h1>
+
+{{error}}
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Add</button>
+</form>
+{% endblock %}
