@@ -1,0 +1,14 @@
+{% extends 'budget_app/base.html' %}
+
+{% block content %}
+
+{% for item in items %}
+
+{{item.title}} <br>
+{{item.amount}} <br>
+{{item.date}} <br>
+{{item.description}} <br>
+
+{% endfor %}
+
+{% endblock %}

@@ -4,10 +4,16 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from .forms import addItemForm
+from .models import BudgetItem
 
 
 def home(request):
     return render(request, 'budget_app/home.html')
+
+
+def items(request):
+    items = BudgetItem.objects.filter(user=request.user)
+    return render(request, 'budget_app/items.html', {'items': items})
 
 
 def signupuser(request):
