@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+from .forms import addItemForm
 
 
 def home(request):
@@ -46,3 +47,14 @@ def loginuser(request):
         else:
             login(request, user)
             return redirect(home)
+
+
+def addItem(request):
+    if request.method == "GET":
+        return render(request, 'budget_app/addItem.html', {'form': addItemForm()})
+    else:
+        form = addItemForm(request.POST)
+        newItem = form.save(commit=False)
+        newItem.user = request.user
+        newItem.save()
+        return redirect(home)

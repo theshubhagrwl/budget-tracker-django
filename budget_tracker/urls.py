@@ -24,4 +24,7 @@ urlpatterns = [
     path('signup/', views.signupuser, name='signupuser'),
     path('logout/', views.logoutuser, name='logoutuser'),
     path('login/', views.loginuser, name='loginuser'),
+    # App stuff
+    path('add/', views.addItem, name='addItem'),
+
 ]
