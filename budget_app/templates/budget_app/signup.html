@@ -1,11 +1,18 @@
 {% extends 'budget_app/base.html' %}
+
 {% block content %}
-<h1>This is the signup page</h1>
+
+<h1>Signup</h1>
 
 {{error}}
-<form method="POST">
+<form method="POST" class="mt-4">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Sign Up</button>
+    <div class="col-lg-6 pl-0">
+        {{form.username}} <br>
+        {{form.password1}} <br>
+        {{form.password2}} <br>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+
+    </div>
 </form>
 {% endblock %}

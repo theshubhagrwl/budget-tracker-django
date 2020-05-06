@@ -27,5 +27,6 @@ urlpatterns = [
     # App stuff
     path('add/', views.addItem, name='addItem'),
     path('items/', views.items, name='items'),
+    path('about/', views.about, name='about'),
 
 ]
