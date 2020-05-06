@@ -1,11 +1,15 @@
 {% extends 'budget_app/base.html' %}
 {% block content %}
-<h1>Add item</h1>
+<h1>Add an Item</h1>
 
 {{error}}
-<form method="POST">
+<form method="POST" class="mt-4">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Add</button>
+    <div class="col-lg-6 pl-0">
+        {{form.title}} <br>
+        {{form.amount}} <br>
+        {{form.date}} <br>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
 </form>
 {% endblock %}

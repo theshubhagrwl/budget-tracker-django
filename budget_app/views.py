@@ -3,22 +3,23 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
-from .forms import addItemForm
+from .forms import addItemForm, SignupForm, LoginForm
 from .models import BudgetItem
 
 
 def home(request):
-    return render(request, 'budget_app/home.html')
+    return render(request, 'budget_app/home.html', {'home_page': 'active'})
 
 
 def items(request):
     items = BudgetItem.objects.filter(user=request.user)
-    return render(request, 'budget_app/items.html', {'items': items})
+    return render(request, 'budget_app/items.html', {'items': items, 'item_page': 'active'})
 
 
 def signupuser(request):
     if request.method == "GET":
-        return render(request, 'budget_app/signup.html', {'form': UserCreationForm()})
+        # return render(request, 'budget_app/signup.html', {'form': UserCreationForm()})
+        return render(request, 'budget_app/signup.html', {'form': SignupForm()})
     else:
         # Create new user
         if request.POST['password1'] == request.POST['password2']:
@@ -29,11 +30,11 @@ def signupuser(request):
                 login(request, user)
                 return redirect('home')
             except IntegrityError:
-                return render(request, 'budget_app/signup.html', {'form': UserCreationForm(), 'error': 'username taken'})
+                return render(request, 'budget_app/signup.html', {'form': SignupForm(), 'error': 'username taken'})
 
         else:
             # Tell pass didn't match
-            return render(request, 'budget_app/signup.html', {'form': UserCreationForm(), 'error': 'pass did not match'})
+            return render(request, 'budget_app/signup.html', {'form': SignupForm(), 'error': 'pass did not match'})
 
 
 def logoutuser(request):
@@ -44,12 +45,12 @@ def logoutuser(request):
 
 def loginuser(request):
     if request.method == 'GET':
-        return render(request, 'budget_app/login.html', {'form': AuthenticationForm()})
+        return render(request, 'budget_app/login.html', {'form': LoginForm()})
     else:
         user = authenticate(
             request, username=request.POST['username'], password=request.POST['password'])
         if user == None:
-            return render(request, 'budget_app/login.html', {'form': AuthenticationForm(), 'error': 'Username and password did not match'})
+            return render(request, 'budget_app/login.html', {'form': LoginForm(), 'error': 'Username and password did not match'})
         else:
             login(request, user)
             return redirect(home)
@@ -63,4 +64,8 @@ def addItem(request):
         newItem = form.save(commit=False)
         newItem.user = request.user
         newItem.save()
-        return redirect(home)
+        return redirect(items)
+
+
+def about(request):
+    return render(request, 'budget_app/about.html', {'about_page': 'active'})

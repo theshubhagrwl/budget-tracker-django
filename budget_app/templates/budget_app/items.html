@@ -4,10 +4,17 @@
 
 {% for item in items %}
 
-{{item.title}} <br>
-{{item.amount}} <br>
-{{item.date}} <br>
-{{item.description}} <br>
+<div class="card bg-light mb-4 shadow sm-3 " style="max-width: 20rem;">
+    <div class="card-body">
+        <h4 class="card-title"> {{item.title|capfirst }} </h4>
+        <p class="card-text">
+            ₹ {{item.amount}} <br>
+            <span class="text-muted">
+                {{item.date|date:'j M Y'}} <br>
+            </span>
+        </p>
+    </div>
+</div>
 
 {% endfor %}
 

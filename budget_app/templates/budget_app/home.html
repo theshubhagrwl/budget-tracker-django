@@ -3,10 +3,9 @@
 {% block content %}
 
 <h1>This is the home page</h1>
-{% if user.is_authenticated %}
-
-{{user.username}}
-
-{% endif %}
+<br>
+<button class="btn btn-primary">
+    <a href="{% url 'addItem' %}" style="color: white;">Add Items</a>
+</button>
 
 {% endblock %}
