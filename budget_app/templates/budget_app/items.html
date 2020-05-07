@@ -1,21 +1,93 @@
 {% extends 'budget_app/base.html' %}
 
+{% block scripts %}
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                // labels: [{% for item in items %} '{{ item.title }}', {% endfor %}],
+                labels: [{% for d in dups %}'{{ d.title }}', {% endfor %}],
+        datasets: [{
+            label: 'Items',
+            // data: [{% for item in items %} '{{ item.amount }}', {% endfor %}],
+            data: [{% for d in dups %}'{{ d.amount__sum }}', {% endfor %}],
+        backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+    ],
+        borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ],
+        borderWidth: 1
+        }]
+            },
+        options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+        });
+    });
+</script>
+
+{% endblock %}
+
 {% block content %}
 
-{% for item in items %}
+<!-- <canvas id="myChart" width="200" height="200"></canvas> -->
 
-<div class="card bg-light mb-4 shadow sm-3 " style="max-width: 20rem;">
-    <div class="card-body">
-        <h4 class="card-title"> {{item.title|capfirst }} </h4>
-        <p class="card-text">
-            ₹ {{item.amount}} <br>
-            <span class="text-muted">
-                {{item.date|date:'j M Y'}} <br>
-            </span>
-        </p>
+<div class="row">
+    <div class="col">
+        <button class="btn btn-primary mb-3 shadow-sm  rounded">
+            <a href="{% url 'addItem' %}" style="color: white;">Add Items</a>
+        </button>
+        {% for item in items %}
+        <div class="row">
+            <div class="col">
+                <div class="card bg-light mb-4 shadow rounded " style="max-width: 20rem;">
+                    <div class="card-body p-4">
+                        <h4 class="card-title"> {{item.title|capfirst }} </h4>
+                        <p class="card-text">
+                            ₹ {{item.amount}} <br>
+                            <span class="text-muted">
+                                {{item.date|date:'j M Y'}} <br>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col">
+        {% for d in dups %}
+        {{d.amount__sum}}
+        {{d.title}}
+        {% endfor %}
+
+        <div class="container pr-10">
+            <canvas id="myChart" width="550" height="500"></canvas>
+        </div>
     </div>
 </div>
-
-{% endfor %}
 
 {% endblock %}
