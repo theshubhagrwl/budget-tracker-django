@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
@@ -14,19 +13,11 @@ def home(request):
 
 
 def items(request):
-    items = BudgetItem.objects.filter(user=request.user)
+    items = BudgetItem.objects.filter(user=request.user).order_by('-date')
     # to calculate the total amount of duplicate values
     dups = items.values('title').annotate(Sum('amount'))
     # print(dups)
     return render(request, 'budget_app/items.html', {'items': items, 'item_page': 'active', 'dups': dups})
-
-# class ItemView(TemplateView):
-#     template_name = 'budget_app/items.html'
-
-#     def get_context_data(self, **kwargs):
-#         items = super().get_context_data(**kwargs)
-#         items['items'] = BudgetItem.objects.filter(user=self.user)
-#         return items
 
 
 def signupuser(request):
@@ -82,3 +73,15 @@ def addItem(request):
 
 def about(request):
     return render(request, 'budget_app/about.html', {'about_page': 'active'})
+
+
+def updateItem(request, pk):
+    u_items = BudgetItem.objects.filter(user=request.user).get(id=pk)
+    form = addItemForm(instance=u_items)
+
+    if request.method == "POST":
+        form = addItemForm(request.POST, instance=u_items)
+        form.save()
+        return redirect(items)
+
+    return render(request, 'budget_app/updateItem.html', {'items': u_items, 'form': form})

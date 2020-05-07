@@ -8,10 +8,14 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
+# class ShowDateWiseData(ModelForm):
+#     month = forms.DateField()
+
+
 class addItemForm(ModelForm):
     class Meta:
         model = BudgetItem
-        fields = ['title', 'description', 'amount', 'date']
+        fields = ['title', 'amount', 'date']
         widgets = {
             'date': DateInput(),
         }
@@ -19,6 +23,7 @@ class addItemForm(ModelForm):
         attrs={
             'class': 'form-control',
             'placeholder': 'Enter Item Name',
+            'text-transform': 'lowercase',
         }
     ))
     amount = forms.DecimalField(widget=forms.NumberInput(
@@ -33,13 +38,6 @@ class addItemForm(ModelForm):
             'placeholder': 'Enter date',
         }
     ))
-    # date = forms.CharField(widget=forms.DateInput(
-    #     attrs={
-    #         'class': 'form-control',
-    #         'placeholder': 'Enter Date',
-
-    #     }
-    # ))
 
 
 class SignupForm(UserCreationForm):
