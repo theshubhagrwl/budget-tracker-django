@@ -5,6 +5,8 @@ from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from .forms import addItemForm, SignupForm, LoginForm
 from .models import BudgetItem
+from django.views.generic.base import TemplateView
+from django.db.models import Sum
 
 
 def home(request):
@@ -13,7 +15,18 @@ def home(request):
 
 def items(request):
     items = BudgetItem.objects.filter(user=request.user)
-    return render(request, 'budget_app/items.html', {'items': items, 'item_page': 'active'})
+    # to calculate the total amount of duplicate values
+    dups = items.values('title').annotate(Sum('amount'))
+    # print(dups)
+    return render(request, 'budget_app/items.html', {'items': items, 'item_page': 'active', 'dups': dups})
+
+# class ItemView(TemplateView):
+#     template_name = 'budget_app/items.html'
+
+#     def get_context_data(self, **kwargs):
+#         items = super().get_context_data(**kwargs)
+#         items['items'] = BudgetItem.objects.filter(user=self.user)
+#         return items
 
 
 def signupuser(request):
