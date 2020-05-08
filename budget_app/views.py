@@ -85,3 +85,13 @@ def updateItem(request, pk):
         return redirect(items)
 
     return render(request, 'budget_app/updateItem.html', {'items': u_items, 'form': form})
+
+
+def deleteItem(request, pk):
+    item = BudgetItem.objects.filter(user=request.user).get(id=pk)
+
+    if request.method == 'POST':
+        item.delete()
+        return redirect(items)
+
+    return render(request, 'budget_app/deleteItem.html', {'item': item})

@@ -14,7 +14,7 @@
                 // labels: [{% for item in items %} '{{ item.title }}', {% endfor %}],
                 labels: [{% for d in dups %}'{{ d.title }}', {% endfor %}],
         datasets: [{
-            // label: '',
+            label: 'items',
             // data: [{% for item in items %} '{{ item.amount }}', {% endfor %}],
             data: [{% for d in dups %}'{{ d.amount__sum }}', {% endfor %}],
         backgroundColor: [
@@ -88,6 +88,11 @@
                         </p>
                         <a href="{% url 'updateItem' item.id %}" <button class="btn btn-info btn-sm shadow-sm rounded">
                             Update
+                            </button>
+                        </a>
+                        <a href="{% url 'deleteItem' item.id %}" <button
+                            class="btn btn-danger btn-sm shadow-sm rounded mx-2">
+                            Delete
                             </button>
                         </a>
                     </div>

@@ -29,5 +29,5 @@ urlpatterns = [
     path('items/', views.items, name='items'),
     path('about/', views.about, name='about'),
     path('update/<int:pk>', views.updateItem, name='updateItem'),
-
+    path('delete/<int:pk>', views.deleteItem, name='deleteItem'),
 ]
