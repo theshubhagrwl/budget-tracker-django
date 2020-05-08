@@ -8,10 +8,6 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-# class ShowDateWiseData(ModelForm):
-#     month = forms.DateField()
-
-
 class addItemForm(ModelForm):
     class Meta:
         model = BudgetItem
@@ -23,7 +19,6 @@ class addItemForm(ModelForm):
         attrs={
             'class': 'form-control',
             'placeholder': 'Enter Item Name',
-            'text-transform': 'lowercase',
         }
     ))
     amount = forms.DecimalField(widget=forms.NumberInput(
@@ -59,11 +54,6 @@ class SignupForm(UserCreationForm):
             'placeholder': 'Retype password',
         }
     ))
-    # password = forms.CharField(widget=forms.PasswordInput(
-    #     attrs={
-    #         'class': 'form-control'
-    #     }
-    # ))
 
 
 class LoginForm(AuthenticationForm):

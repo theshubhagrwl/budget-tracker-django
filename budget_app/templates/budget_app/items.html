@@ -10,12 +10,9 @@
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                // labels: [{% for item in items %} '{{ item.title }}', {% endfor %}],
                 labels: [{% for d in dups %}'{{ d.title }}', {% endfor %}],
         datasets: [{
             label: 'items',
-            // data: [{% for item in items %} '{{ item.amount }}', {% endfor %}],
             data: [{% for d in dups %}'{{ d.amount__sum }}', {% endfor %}],
         backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -53,19 +50,6 @@
 
 {% block content %}
 
-<!-- <canvas id="myChart" width="200" height="200"></canvas> -->
-
-<!-- <form method="POST" class="mt-4">
-    {% csrf_token %}
-    <div class="col-lg-6 pl-0">
-        <input type="month">
-    </div>
-    <button type="submit" class="btn btn-primary shadow-sm"> Show Data </button>
-</form>
-
-<button class="btn btn-primary mb-3 shadow-sm  rounded">
-    <a href="{% url 'addItem' %}" style="color: white;">test</a>
-</button> -->
 
 <div class="row">
     <div class="col">

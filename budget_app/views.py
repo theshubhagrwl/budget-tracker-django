@@ -6,23 +6,25 @@ from .forms import addItemForm, SignupForm, LoginForm
 from .models import BudgetItem
 from django.views.generic.base import TemplateView
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
     return render(request, 'budget_app/home.html', {'home_page': 'active'})
 
 
+@login_required
 def items(request):
-    items = BudgetItem.objects.filter(user=request.user).order_by('-date')
+    ordered_items = BudgetItem.objects.filter(
+        user=request.user).order_by('-date')
     # to calculate the total amount of duplicate values
-    dups = items.values('title').annotate(Sum('amount'))
-    # print(dups)
-    return render(request, 'budget_app/items.html', {'items': items, 'item_page': 'active', 'dups': dups})
+    dups = BudgetItem.objects.filter(user=request.user).values(
+        'title').annotate(Sum('amount'))
+    return render(request, 'budget_app/items.html', {'items': ordered_items, 'item_page': 'active', 'dups': dups})
 
 
 def signupuser(request):
     if request.method == "GET":
-        # return render(request, 'budget_app/signup.html', {'form': UserCreationForm()})
         return render(request, 'budget_app/signup.html', {'form': SignupForm()})
     else:
         # Create new user
@@ -41,6 +43,7 @@ def signupuser(request):
             return render(request, 'budget_app/signup.html', {'form': SignupForm(), 'error': 'pass did not match'})
 
 
+@login_required
 def logoutuser(request):
     if request.method == 'POST':
         logout(request)
@@ -60,6 +63,7 @@ def loginuser(request):
             return redirect(home)
 
 
+@login_required
 def addItem(request):
     if request.method == "GET":
         return render(request, 'budget_app/addItem.html', {'form': addItemForm()})
@@ -67,6 +71,8 @@ def addItem(request):
         form = addItemForm(request.POST)
         newItem = form.save(commit=False)
         newItem.user = request.user
+        # converting to lowercase to assist in count function
+        newItem.title = newItem.title.lower()
         newItem.save()
         return redirect(items)
 
@@ -75,6 +81,7 @@ def about(request):
     return render(request, 'budget_app/about.html', {'about_page': 'active'})
 
 
+@login_required
 def updateItem(request, pk):
     u_items = BudgetItem.objects.filter(user=request.user).get(id=pk)
     form = addItemForm(instance=u_items)
@@ -87,6 +94,7 @@ def updateItem(request, pk):
     return render(request, 'budget_app/updateItem.html', {'items': u_items, 'form': form})
 
 
+@login_required
 def deleteItem(request, pk):
     item = BudgetItem.objects.filter(user=request.user).get(id=pk)
 

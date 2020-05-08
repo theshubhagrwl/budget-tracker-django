@@ -4,8 +4,29 @@
 
 <h1>This is the home page</h1>
 <br>
-<button class="btn btn-primary shadow-sm">
-    <a href="{% url 'addItem' %}" style="color: white;">Add Items</a>
-</button>
+
+{% if user.is_authenticated %}
+
+<p>Have a look at all you items</p>
+<a href="{% url 'items' %}" style="color: white;">
+    <button class="btn btn-primary shadow-sm mb-4">
+        Items
+    </button>
+</a>
+<br>
+<p>OR</p>
+<p>Add an item</p>
+<a href="{% url 'addItem' %}" style="color: white;">
+    <button class="btn btn-primary shadow-sm">
+        Add Items
+    </button>
+</a>
+
+{% else %}
+
+<a href="{% url 'loginuser' %}"><button class="btn btn-primary shadow-sm" type="submit">Login</button></a>
+<a href="{% url 'signupuser' %}"> <button class="btn btn-primary shadow-sm" type="submit">Signup</button> </a>
+
+{% endif %}
 
 {% endblock %}
