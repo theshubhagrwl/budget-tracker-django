@@ -12,8 +12,9 @@
             data: {
                 labels: [{% for d in dups %}'{{ d.title }}', {% endfor %}],
         datasets: [{
-            label: 'items',
-            data: [{% for d in dups %}'{{ d.amount__sum }}', {% endfor %}],
+            // label: '₹',
+            label: `You spent ₹`,
+            data: [{% for d in dups %}'{{d.amount__sum }}', {% endfor %}],
         backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -40,6 +41,9 @@
                     beginAtZero: true
                 }
             }]
+        },
+        legend: {
+            display: false //To hod the label at top of chart
         }
     }
         });
@@ -54,14 +58,14 @@
 <div class="row">
     <div class="col">
         <a href="{% url 'addItem' %}" style="color: white;">
-            <button class="btn btn-primary mb-3 shadow-sm  rounded">
+            <button class="btn btn-primary mb-3 shadow-sm rounded">
                 Add Items
             </button>
         </a>
         {% for item in items %}
-        <div class="row">
-            <div class="col">
-                <div class="card bg-light mb-4 shadow rounded " style="max-width: 20rem;">
+        <div class="row ">
+            <div class="col mx-auto">
+                <div class="card bg-light mb-4 shadow rounded">
                     <div class="card-body px-4">
                         <h4 class="card-title p-0 mx-auto"> {{item.title|capfirst }} </h4>
                         <p class="card-text">
@@ -74,9 +78,9 @@
                             Update
                             </button>
                         </a>
-                        <a href="{% url 'deleteItem' item.id %}" <button
-                            class="btn btn-danger btn-sm shadow-sm rounded mx-2">
-                            Delete
+                        <a href="{% url 'deleteItem' item.id %}">
+                            <button class="btn btn-danger btn-sm shadow-sm rounded mx-2">
+                                Delete
                             </button>
                         </a>
                     </div>
@@ -86,8 +90,12 @@
         {% endfor %}
     </div>
     <div class="col">
-        <div class="container pr-10 mr-10">
-            <canvas id="myChart" width="550" height="500"></canvas>
+        <form method="POST" class="mb-5">
+            {% csrf_token %}
+            {{form.month_number}}
+        </form>
+        <div class="container-fluid">
+            <canvas id="myChart" width="700" height="600" class="mr-10 responsive"></canvas>
         </div>
     </div>
 </div>

@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "C:\\Users\\Shubh Agrawal\\Anaconda3\\envs\\django\\python.exe"
+    "python.pythonPath": "C:\\Users\\Shubh Agrawal\\Anaconda3\\envs\\django\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.banditEnabled": false,
+    "python.linting.pycodestyleEnabled": false
 }

@@ -69,3 +69,28 @@ class LoginForm(AuthenticationForm):
             'placeholder': 'Enter password',
         }
     ))
+
+
+CHOICES = (
+    ("1", "Jan"),
+    ("2", "Feb"),
+    ("3", "Mach"),
+    ("4", "April"),
+    ("5", "May"),
+    ("5", "June"),
+    ("5", "July"),
+    ("5", "August"),
+    ("5", "September"),
+    ("5", "October"),
+    ("5", "November"),
+    ("5", "December"),
+)
+
+
+class MonthForm(forms.Form):
+    month_number = forms.ChoiceField(choices=CHOICES, widget=forms.Select(
+        attrs={
+            'class': 'form-control col-6 mx-auto',
+            'onChange': 'this.form.submit()',
+        }
+    ))

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
-from .forms import addItemForm, SignupForm, LoginForm
+from .forms import addItemForm, SignupForm, LoginForm, MonthForm
 from .models import BudgetItem
 from django.views.generic.base import TemplateView
 from django.db.models import Sum
@@ -15,12 +15,25 @@ def home(request):
 
 @login_required
 def items(request):
-    ordered_items = BudgetItem.objects.filter(
-        user=request.user).order_by('-date')
-    # to calculate the total amount of duplicate values
-    dups = BudgetItem.objects.filter(user=request.user).values(
-        'title').annotate(Sum('amount'))
-    return render(request, 'budget_app/items.html', {'items': ordered_items, 'item_page': 'active', 'dups': dups})
+    if request.method == 'GET':
+        # ordering items by date
+        ordered_items = BudgetItem.objects.filter(
+            user=request.user).order_by('-date')
+        # to calculate the total amount of duplicate values
+        dups = BudgetItem.objects.filter(user=request.user).values(
+            'title').annotate(Sum('amount'))
+        return render(request, 'budget_app/items.html', {'items': ordered_items, 'item_page': 'active', 'dups': dups, 'form': MonthForm()})
+    else:
+        form = MonthForm(request.POST)
+        data = request.POST.copy()
+        # month = form.save(commit=False)
+        month = data.get('month_number')
+        print(month)
+        items = BudgetItem.objects.filter(
+            user=request.user).filter(date__month=month)
+        dups = BudgetItem.objects.filter(user=request.user).filter(date__month=month).values(
+            'title').annotate(Sum('amount'))
+        return render(request, 'budget_app/items.html', {'items': items, 'dups': dups})
 
 
 def signupuser(request):
