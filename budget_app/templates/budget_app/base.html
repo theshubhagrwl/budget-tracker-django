@@ -43,7 +43,7 @@
     </style>
 </head>
 
-<body>
+<body style="flex: 1 0 auto; height: 100%;">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow sm-3">
         <a class="navbar-brand" href="{% url 'home' %}">Budget Tracker</a>
@@ -87,10 +87,19 @@
     {% endblock %}
 
 
-    <!-- <div class="d-flex my-4 justify-content-center mx-auto"> -->
     <div class="container my-4">
         {% block content %} {% endblock %}
     </div>
+
+    {% block footer %}
+    <footer class="alert alert-dismissible alert-light py-3 my-0 mt-5 text-30"
+        style="flex-shrink: none;font-size: large;">
+        <div class="container text-center">
+            <small style="word-spacing: 5px;">Made with &#x2764; by <a
+                    href="https://www.instagram.com/theshubhagrwl/"><strong>Shubh</strong></a> </small>
+        </div>
+    </footer>
+    {% endblock %}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

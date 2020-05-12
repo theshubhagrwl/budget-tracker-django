@@ -2,34 +2,29 @@
 
 {% block content %}
 
-<div class="container text-center">
-    <h1>This is the home page</h1>
-    <br>
-
+<div class="jumbotron text-center">
+    <h1 class="display-3 mb-4">Welcome to Budget-Tracker App</h1>
+    <p class="lead">This is a budget tracker app made keeping simplicity in mind. <br>
+        The main purpose of this app is to give you a visualisation of your spendings in a beautiul way</p>
+    <hr class="my-4">
     {% if user.is_authenticated %}
-
-
-    <p>Have a look at all you items</p>
-    <a href="{% url 'items' %}" style="color: white;">
-        <button class="btn btn-primary shadow-sm mb-4">
-            Items
-        </button>
-    </a>
-    <br>
-    <p>OR</p>
-    <p>Add an item</p>
-    <a href="{% url 'addItem' %}" style="color: white;">
-        <button class="btn btn-primary shadow-sm">
-            Add Items
-        </button>
-    </a>
-
+    <p>Get started by taking a detailed look at all your items</p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'items' %}" role="button"> Items </a>
+    </p>
     {% else %}
-
-    <a href="{% url 'loginuser' %}"><button class="btn btn-primary shadow-sm" type="submit">Login</button></a>
-    <a href="{% url 'signupuser' %}"> <button class="btn btn-primary shadow-sm" type="submit">Signup</button> </a>
-
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'loginuser' %}" role="button"> Login </a>
+    </p>
+    <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{% url 'signupuser' %}" role="button"> Signup </a>
+    </p>
+    {% endif %}
 </div>
-{% endif %}
+
 
 {% endblock %}
+
+{% block footer %}
+
+{%endblock%}
