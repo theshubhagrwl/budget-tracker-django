@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from rest_framework import request
+# from django.contrib.auth.models import User
+from users.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
 from .forms import addItemForm, SignupForm, LoginForm, MonthForm
@@ -7,6 +9,13 @@ from .models import BudgetItem
 from django.views.generic.base import TemplateView
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+@api_view(['GET', "POST"])
+def hello(request):
+    return Response({"Hello": 'World'})
 
 
 def home(request):
