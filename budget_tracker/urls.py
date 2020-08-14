@@ -19,12 +19,13 @@ from budget_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
+    # path('', views.home, name='home'),
 
     path('api-auth/', include('rest_framework.urls')),
 
     # Auth stuff
     path('', include("budget_app.urls")),
+    path('user/', include("users.urls")),
     # path('hello/', views.hello, name='hello'),
 
     # path('signup/', views.signupuser, name='signupuser'),
