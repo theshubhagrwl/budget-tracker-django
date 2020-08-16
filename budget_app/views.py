@@ -1,3 +1,4 @@
+from budget_app.serializers import BudgetItemSerializer
 from django.shortcuts import render, redirect
 from rest_framework import request
 # from django.contrib.auth.models import User
@@ -9,8 +10,10 @@ from .models import BudgetItem
 from django.views.generic.base import TemplateView
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 
 @api_view(['GET', "POST"])
@@ -18,8 +21,14 @@ def hello(request):
     return Response({"Hello": 'World'})
 
 
-def home(request):
-    return render(request, 'budget_app/home.html', {'home_page': 'active'})
+class ItemViewSet(viewsets.ModelViewSet):
+    serializer_class = BudgetItemSerializer
+    queryset = BudgetItem.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+# def home(request):
+#     return render(request, 'budget_app/home.html', {'home_page': 'active'})
 
 
 # @login_required

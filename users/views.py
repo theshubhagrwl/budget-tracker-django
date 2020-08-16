@@ -1,6 +1,6 @@
 import random
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import AllowAny,  BasePermission, IsAdminUser
+from rest_framework.permissions import AllowAny
 from .serializers import UserSerializer
 from .models import User
 from django.http import JsonResponse
@@ -73,16 +73,9 @@ def signout(request, id):
     return JsonResponse({"success": 'Logout success'})
 
 
-# class IsAdminUser(BasePermission):
-
-#     def has_permission(self, request, view):
-#         return request.user.is_admin
-
-
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes_by_action = {'create': [IsAdminUser]}
+    permission_classes_by_action = {'create': [AllowAny]}
 
-    # permission_classes = (IsAdminUser,)
     queryset = User.objects.all().order_by("id")
     serializer_class = UserSerializer
 

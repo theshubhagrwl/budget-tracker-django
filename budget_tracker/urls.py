@@ -25,7 +25,7 @@ urlpatterns = [
 
     # Auth stuff
     path('', include("budget_app.urls")),
-    path('user/', include("users.urls")),
+    path('users/', include("users.urls")),
     # path('hello/', views.hello, name='hello'),
 
     # path('signup/', views.signupuser, name='signupuser'),
