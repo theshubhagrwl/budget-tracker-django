@@ -18,11 +18,9 @@ from django.urls import path, include
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'items', views.ItemViewSet)
+router.register(r'', views.ItemViewSet)
 
 urlpatterns = [
-    # path('', views.home, name='home'),
-    # Auth stuff
     path('hello/', views.hello, name='hello'),
     path('', include(router.urls)),
 
