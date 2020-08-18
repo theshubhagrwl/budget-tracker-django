@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from .models import BudgetItem
+from .models import Items
 
 
-class BudgetItemSerializer(serializers.HyperlinkedModelSerializer):
+# class ItemSerializer(serializers.HyperlinkedModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BudgetItem
+        model = Items
         fields = ("__all__")

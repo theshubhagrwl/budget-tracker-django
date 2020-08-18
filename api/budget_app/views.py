@@ -1,32 +1,75 @@
-from api.budget_app.serializers import BudgetItemSerializer
-from django.shortcuts import render, redirect
-from rest_framework import request
-# from django.contrib.auth.models import User
+from re import search
 from api.users.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
-from .forms import addItemForm, SignupForm, LoginForm, MonthForm
-from .models import BudgetItem
-from django.views.generic.base import TemplateView
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
-from rest_framework.decorators import api_view, permission_classes
+
+
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework.serializers import Serializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from rest_framework import viewsets
+from .serializers import ItemSerializer
+from .models import Items
+import json
+from django.core.exceptions import ObjectDoesNotExist
 
 
-@api_view(['GET', "POST"])
-def hello(request):
-    return Response({"Hello": 'World'})
+class UserItemViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+    perimission_classes = [IsAuthenticated]
+    # queryset = Items.objects.all()
+
+    def get_queryset(self,  *args):
+        return Items.objects.filter(user=self.request.user.id)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
-    serializer_class = BudgetItemSerializer
-    queryset = BudgetItem.objects.all()
+    serializer_class = ItemSerializer
+    queryset = Items.objects.all()
     permission_classes = [IsAuthenticated]
 
 
+@csrf_exempt
+@api_view(['POST', ])
+def addItem(request):
+    # user = request.user
+    item = Items(user=request.user)
+    if request.method == "POST":
+        serializer = ItemSerializer(item, data=request.data)
+        # data = {}
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors)
+    # try:
+    #     # author = User.objects.get(id=payload["user"])
+    #     item = Items.objects.create(
+    #         title=payload["title"],
+    #         description=payload["description"],
+    #         user=user,
+    #     )
+    #     serializer = ItemSerializer(item)
+    #     return JsonResponse({'books': serializer.data})
+    # except ObjectDoesNotExist as e:
+    #     return JsonResponse({'error': str(e)})
+    # except Exception:
+    #     return JsonResponse({'error': 'Something terrible went wrong'})
+
+# @csrf_exempt
+# @api_view(['GET', "POST"])
+# def add_item(request):
+#     if request.method == 'POST':
+#         data = request.POST
+#         user = request.user
+
+#         return JsonResponse({"data": data})
+
+#     return JsonResponse({"data": "data will show here"})
 # def home(request):
 #     return render(request, 'budget_app/home.html', {'home_page': 'active'})
 
