@@ -1,14 +1,13 @@
-import random
-from rest_framework.decorators import permission_classes
+from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from .serializers import UserSerializer
 from .models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import get_user_model
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
+import random
 import re
-from rest_framework import viewsets
 
 
 def generate_session_token(length=10):
@@ -76,11 +75,12 @@ def signout(request, id):
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {'create': [AllowAny]}
 
-    queryset = User.objects.all().order_by("id")
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
 
-    def get_premissions(self):
+    def get_permissions(self):
         try:
             return [permission() for permission in self.permission_classes_by_action[self.action]]
+
         except KeyError:
             return [permission() for permission in self.permission_classes]
