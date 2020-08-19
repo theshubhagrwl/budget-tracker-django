@@ -15,18 +15,24 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         return instance
 
     def update(self, instance, validated_data):
-        for attr, value in validated_data:
-            if attr == 'password':
-                instance.set_password(value)
-            else:
-                setattr(instance, attr, value)
+        instance.name = validated_data.get('name', instance.name)
+        # for attr, value in validated_data:
+        #     if attr == 'password':
+        #         instance.set_password(value)
+        #     else:
+        #         setattr(instance, attr, value)
+        # for attr, value in validated_data:
+        #     if attr == 'name':
+        #         instance.set_name(value)
+        #     else:
+        #         setattr(instance, attr, value)
         instance.save()
         return instance
 
     class Meta:
         model = User
         extra_kwargs = {'password': {'write_only': True}}
-        fields = ('name', 'email', 'password',
+        fields = ("id", 'name', 'email', 'password',
                   'is_active', 'is_staff', 'is_superuser')
         # fields = ('name', 'email', 'password',
         #           'active', 'is_staff', 'admin')

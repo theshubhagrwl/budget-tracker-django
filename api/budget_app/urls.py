@@ -10,17 +10,11 @@ urlpatterns = [
     # path('hello/', views.hello, name='hello'),
     path('', include(router.urls)),
     path('add-item/', views.addItem, name='add-item'),
+    path('delete-item/<int:pk>/', views.deleteItem, name='delete-item'),
+    path('update-item/<int:pk>/', views.updateItem, name='update-item'),
     # path('', include(router.urls)),
 
 
 
-    # path('signup/', views.signupuser, name='signupuser'),
-    # path('logout/', views.logoutuser, name='logoutuser'),
-    # path('login/', views.loginuser, name='loginuser'),
-    # # App stuff
-    # path('add/', views.addItem, name='addItem'),
-    # path('items/', views.items, name='items'),
-    # path('about/', views.about, name='about'),
     # path('update/<int:pk>', views.updateItem, name='updateItem'),
-    # path('delete/<int:pk>', views.deleteItem, name='deleteItem'),
 ]
