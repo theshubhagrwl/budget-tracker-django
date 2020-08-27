@@ -10,7 +10,7 @@ class Items(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=200, blank=True)
     amount = models.IntegerField()
-    data = models.DateField(auto_now=True)
+    date = models.DateField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     itemType = models.CharField(max_length=10, choices=ITEM_TYPE)
 
