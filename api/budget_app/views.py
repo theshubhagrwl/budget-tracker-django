@@ -21,7 +21,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 class UserItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
-    perimission_classes = [IsAuthenticated]
+    # perimission_classes = [IsAuthenticated]
     # queryset = Items.objects.all()
 
     def get_queryset(self,  *args):
@@ -31,11 +31,11 @@ class UserItemViewSet(viewsets.ModelViewSet):
 class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
     queryset = Items.objects.all()
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
 
 @csrf_exempt
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 @api_view(['POST', ])
 def addItem(request):
     item = Items(user=request.user)
@@ -48,7 +48,7 @@ def addItem(request):
 
 
 @csrf_exempt
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 @api_view(['DELETE', ])
 def deleteItem(request, pk):
     try:
@@ -60,7 +60,7 @@ def deleteItem(request, pk):
 
 
 @csrf_exempt
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 @api_view(['PUT', ])
 def updateItem(request, pk):
 
