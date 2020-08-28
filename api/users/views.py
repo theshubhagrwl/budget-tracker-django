@@ -8,6 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
 import random
 import re
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 
 
 def generate_session_token(length=10):
@@ -15,6 +18,7 @@ def generate_session_token(length=10):
 
 
 @csrf_exempt
+@permission_classes([AllowAny])
 def signin(request):
     if not request.method == 'POST':
         return JsonResponse({'error': 'Send a Post request'})
@@ -44,7 +48,8 @@ def signin(request):
                 user.save()
                 return JsonResponse({"error": "Session already exists"})
 
-            token = generate_session_token()
+            # token = generate_session_token()
+            token = Token.objects.get(user=user).key
             user.session_token = token
             user.save()
             login(request, user)
@@ -64,6 +69,7 @@ def signout(request, id):
 
     try:
         user = UserModel.objects.get(pk=id)
+        # user.session_token = "0"
         user.session_token = "0"
         user.save()
     except UserModel.DoesNotExist:

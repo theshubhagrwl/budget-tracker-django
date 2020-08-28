@@ -35,7 +35,7 @@ class ItemViewSet(viewsets.ModelViewSet):
 
 
 @csrf_exempt
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 @api_view(['POST', ])
 def addItem(request):
     item = Items(user=request.user)
