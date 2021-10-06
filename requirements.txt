@@ -48,7 +48,7 @@ pyOpenSSL @ file:///tmp/build/80754af9/pyopenssl_1606517880428/work
 pyparsing==2.4.7
 pyrsistent==0.17.3
 PySocks @ file:///C:/ci/pysocks_1605307512533/work
-pywin32==228
+pywin32==301
 pywinpty==0.5.7
 pyzmq==22.0.3
 requests @ file:///tmp/build/80754af9/requests_1606691187061/work
